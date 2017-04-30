@@ -1,6 +1,6 @@
 <?php
 
-namespace phisch\OAuthServerBundle\Controller;
+namespace Phisch\OAuthServerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

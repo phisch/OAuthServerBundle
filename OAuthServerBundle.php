@@ -1,6 +1,6 @@
 <?php
 
-namespace phisch\OAuthServerBundle;
+namespace Phisch\OAuthServerBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

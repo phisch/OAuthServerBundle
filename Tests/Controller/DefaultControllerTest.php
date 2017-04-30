@@ -1,6 +1,6 @@
 <?php
 
-namespace phisch\OAuthServerBundle\Tests\Controller;
+namespace Phisch\OAuthServerBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

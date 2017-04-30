@@ -1,0 +1,34 @@
+{
+    "name": "phisch/oauth-server-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony OAuthServerBundle",
+    "keywords": ["Authentication"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Philipp Schaffrath",
+            "email": "github@philipp.schaffrath.email"
+        }
+    ],
+    "require": {
+        "php": "^5.5.9 || ^7.0",
+        "phisch/oauth-server": "dev-master"
+    },
+    "require-dev": {
+        "symfony/console": "^2.7 || ^3.0",
+        "phpunit/phpunit": "~4.8|~5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Phisch\\OAuthServerBundle\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}

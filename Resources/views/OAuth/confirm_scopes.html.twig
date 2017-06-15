@@ -1,0 +1,14 @@
+{% extends '@User/layout.html.twig' %}
+{% block content %}
+    <h1>Ahoy user!</h1>
+    <p>Client {{ client.id }} identified by "{{ client.clientId }}" wants to get access to the following scopes:</p>
+    <ul>
+        {% for scope in scopes %}
+            <li>
+                <span>{{ scope.name }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+    <p>You okay with this?</p>
+    {{ form(scopeConfirmationForm) }}
+{% endblock %}

@@ -3,11 +3,11 @@
 namespace Phisch\OAuthServerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use League\OAuth2\Server\Entities\ScopeEntityInterface;
+use Phisch\OAuth\Server\Entity\ScopeEntityInterface;
 
 /**
  * @ORM\Table(name="scope")
- * @ORM\Entity(repositoryClass="OAuth2ServerBundle\Repository\ScopeRepository")
+ * @ORM\Entity(repositoryClass="Phisch\OAuthServerBundle\Repository\ScopeRepository")
  */
 class Scope implements ScopeEntityInterface
 {
@@ -37,14 +37,6 @@ class Scope implements ScopeEntityInterface
     /**
      * @return string
      */
-    public function getIdentifier()
-    {
-        return $this->getName();
-    }
-
-    /**
-     * @return string
-     */
     public function getName()
     {
         return $this->name;
@@ -57,10 +49,4 @@ class Scope implements ScopeEntityInterface
     {
         $this->name = $name;
     }
-
-    function jsonSerialize()
-    {
-        // TODO: why???
-    }
 }
-

@@ -3,14 +3,13 @@
 namespace Phisch\OAuthServerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
-use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
+use Phisch\OAuth\Server\Entity\AccessTokenEntityInterface;
 
 /**
  * @ORM\Table(name="refresh_token")
- * @ORM\Entity(repositoryClass="OAuth2ServerBundle\Repository\RefreshTokenRepository")
+ * @ORM\Entity(repositoryClass="Phisch\OAuthServerBundle\Repository\RefreshTokenRepository")
  */
-class RefreshToken implements RefreshTokenEntityInterface
+class RefreshToken
 {
     /**
      * @var int
@@ -35,7 +34,7 @@ class RefreshToken implements RefreshTokenEntityInterface
 
     /**
      * @var AccessTokenEntityInterface
-     * @ORM\OneToOne(targetEntity="OAuth2ServerBundle\Entity\AccessToken")
+     * @ORM\OneToOne(targetEntity="AccessToken")
      * @ORM\JoinColumn(name="accesstoken_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $accessToken;
@@ -96,4 +95,3 @@ class RefreshToken implements RefreshTokenEntityInterface
         return $this->accessToken;
     }
 }
-

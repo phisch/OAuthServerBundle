@@ -4,12 +4,14 @@ namespace Phisch\OAuthServerBundle\Entity;
 
 use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use Phisch\OAuth\Server\Entity\ClientEntityInterface;
+use Phisch\OAuth\Server\Entity\ScopeEntityInterface;
 
 /**
  * @ORM\Table(name="auth_code")
- * @ORM\Entity(repositoryClass="OAuth2ServerBundle\Repository\AuthCodeRepository")
+ * @ORM\Entity(repositoryClass="Phisch\OAuthServerBundle\Repository\AuthCodeRepository")
  */
-class AuthCode implements AuthCodeEntityInterface
+class AuthCode
 {
     /**
      * @var int
@@ -28,8 +30,8 @@ class AuthCode implements AuthCodeEntityInterface
     protected $client;
 
     /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @var \Phisch\UserBundle\Entity\User
+     * @ORM\ManyToOne(targetEntity="Phisch\UserBundle\Entity\User")
      */
     protected $user;
 

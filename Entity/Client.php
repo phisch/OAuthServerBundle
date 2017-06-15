@@ -3,13 +3,12 @@
 namespace Phisch\OAuthServerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use League\OAuth2\Server\Entities\ClientEntityInterface;
-use OAuth2ServerBundle\Generator\Random;
+use Phisch\OAuth\Server\Entity\ClientEntityInterface;
 
 /**
  * @ORM\Table(name="client")
- * @ORM\Entity(repositoryClass="OAuth2ServerBundle\Repository\ClientRepository")
- * @ORM\EntityListeners({})
+ * @ORM\Entity(repositoryClass="Phisch\OAuthServerBundle\Repository\ClientRepository")
+ * @ORM\EntityListeners({"Phisch\OAuthServerBundle\Entity\Listener\ClientListener"})
  */
 class Client implements ClientEntityInterface
 {
@@ -37,25 +36,18 @@ class Client implements ClientEntityInterface
     private $secret;
 
     /**
-     * @var string
+     * @var array
      *
-     * @ORM\Column(type="string", length=2000, nullable=true)
+     * @ORM\Column(type="array")
      */
-    private $redirectUri;
+    private $redirectUris = [];
 
     /**
      * @var array
      *
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="array")
      */
     private $grantTypes = [];
-
-    public function __construct()
-    {
-        // TODO: solve this via doctrine listeners!
-        $this->setClientId(Random::generateString());
-        $this->setSecret(Random::generateString());
-    }
 
     /**
      * @return int
@@ -63,24 +55,6 @@ class Client implements ClientEntityInterface
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * proxy for getClientId because of the interface
-     * @return string
-     */
-    public function getName()
-    {
-        // TODO: check if this is really the name
-        return $this->getClientId();
-    }
-
-    /**
-     * @return int
-     */
-    public function getIdentifier()
-    {
-        return $this->getClientId();
     }
 
     /**
@@ -132,27 +106,18 @@ class Client implements ClientEntityInterface
     }
 
     /**
-     * @param $grantType
+     * @return array
      */
-    public function addGrantType($grantType)
+    public function getRedirectUris()
     {
-        $this->grantTypes[] = $grantType;
+        return $this->redirectUris;
     }
 
     /**
-     * @return string
+     * @param array $redirectUris
      */
-    public function getRedirectUri()
+    public function setRedirectUris($redirectUris)
     {
-        return $this->redirectUri;
-    }
-
-    /**
-     * @param string $redirectUri
-     */
-    public function setRedirectUri($redirectUri)
-    {
-        $this->redirectUri = $redirectUri;
+        $this->redirectUris = $redirectUris;
     }
 }
-

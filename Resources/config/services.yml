@@ -2,3 +2,70 @@ services:
 #    o_auth_server.example:
 #        class: phisch\OAuthServerBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+  phisch.oauth_server_bundle.generator.random_token_generator:
+      class: Phisch\OAuthServerBundle\Generator\RandomTokenGenerator
+
+  phisch.oauth.entity.listener.client_listener:
+    class: Phisch\OAuthServerBundle\Entity\Listener\ClientListener
+    arguments:
+      - "@phisch.oauth_server_bundle.generator.random_token_generator"
+    tags:
+      - { name: doctrine.orm.entity_listener }
+
+
+
+
+
+  phisch.oauth_server_bundle.repository.access_token_repository:
+    class: Phisch\OAuthServerBundle\Repository\AccessTokenRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments: ["OAuthServerBundle:AccessToken"]
+
+  phisch.oauth_server_bundle.repository.auth_code_repository:
+    class: Phisch\OAuthServerBundle\Repository\AuthCodeRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments: ["OAuthServerBundle:AuthCode"]
+
+  phisch.oauth_server_bundle.repository.client_repository:
+    class: Phisch\OAuthServerBundle\Repository\ClientRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments: ["OAuthServerBundle:Client"]
+
+  phisch.oauth_server_bundle.repository.refresh_token_repository:
+    class: Phisch\OAuthServerBundle\Repository\RefreshTokenRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments: ["OAuthServerBundle:RefreshToken"]
+
+  phisch.oauth_server_bundle.repository.scope_repository:
+    class: Phisch\OAuthServerBundle\Repository\ScopeRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments: ["OAuthServerBundle:Scope"]
+
+  phisch.oauth_server_bundle.repository.user_repository:
+    class: Phisch\UserBundle\Repository\UserRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments: ["UserBundle:User"]
+
+
+  phisch.oauth_server_bundle.grant.authorization_code:
+    class: Phisch\OAuth\Server\Grant\AuthorizationCodeGrant
+    arguments:
+      - "@phisch.oauth_server_bundle.repository.client_repository"
+      - "@phisch.oauth_server_bundle.repository.scope_repository"
+      - "@phisch.oauth_server_bundle.repository.user_repository"
+      - "@phisch.oauth_server_bundle.repository.access_token_repository"
+      - "@phisch.oauth_server_bundle.repository.refresh_token_repository"
+      - "@phisch.oauth_server_bundle.token.bearer"
+
+  phisch.oauth_server_bundle.authorization_server:
+    class: Phisch\OAuth\Server\Server
+    arguments:
+      - ["@phisch.oauth_server_bundle.grant.authorization_code"]
+      - "@phisch.oauth_server_bundle.response.builder"
+
+  phisch.oauth_server_bundle.token.bearer:
+    class: Phisch\OAuth\Server\Token\BearerToken
+
+  phisch.oauth_server_bundle.response.builder:
+    class: Phisch\OAuth\Server\Response\HttpFoundationResponseBuilder

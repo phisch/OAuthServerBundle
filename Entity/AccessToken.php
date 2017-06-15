@@ -3,11 +3,13 @@
 namespace Phisch\OAuthServerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Phisch\OAuth\Server\Entity\AccessTokenEntity;
+use Phisch\OAuth\Server\Entity\AccessTokenEntityInterface;
+use Phisch\OAuth\Server\Entity\ClientEntityInterface;
+use Phisch\OAuth\Server\Entity\ScopeEntityInterface;
 
 /**
  * @ORM\Table(name="access_token")
- * @ORM\Entity(repositoryClass="OAuth2ServerBundle\Repository\AccessTokenRepository")
+ * @ORM\Entity(repositoryClass="Phisch\OAuthServerBundle\Repository\AccessTokenRepository")
  */
 class AccessToken
 {
@@ -33,13 +35,13 @@ class AccessToken
     protected $client;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Phisch\UserBundle\Entity\User")
      */
     protected $user;
 
     /**
      * @var Scope[]
-     * @ORM\ManyToMany(targetEntity="Scope")
+     * @ORM\ManyToMany(targetEntity="Phisch\OAuthServerBundle\Entity\Scope")
      * @ORM\JoinTable(name="access_token_scope", joinColumns={@ORM\JoinColumn(name="access_token_id", referencedColumnName="id")})
      */
     protected $scopes;
@@ -104,7 +106,7 @@ class AccessToken
         $this->client = $client;
     }
 
-    public function addScope(ScopeEntityInterface $scope)
+    public function addScope(ClientEntityInterface $scope)
     {
         $this->scopes[] = $scope;
     }
